@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="612.1328125" prefWidth="748.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <!-- TODO Add Nodes -->
+  <children>
+    <TextField id="txtFormula" layoutX="14.0" layoutY="30.0" prefWidth="200.0" />
+    <TextField id="txtDomain" layoutX="14.0" layoutY="67.0" prefWidth="200.0" />
+    <TextField id="txtRange" layoutX="14.0" layoutY="105.0" prefWidth="200.0" />
+    <TextArea id="txtField" layoutX="229.0" layoutY="30.0" prefHeight="151.0" prefWidth="200.00009999999747" wrapText="true" />
+    <LineChart id="LineChart" layoutX="234.0" layoutY="181.0">
+      <xAxis>
+        <CategoryAxis side="BOTTOM" />
+      </xAxis>
+      <yAxis>
+        <NumberAxis side="LEFT" />
+      </yAxis>
+    </LineChart>
+    <Button id="btnCalculate" layoutX="14.0" layoutY="138.0" mnemonicParsing="false" text="calculate" />
+  </children>
+</AnchorPane>
