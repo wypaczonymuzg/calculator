@@ -13,7 +13,7 @@
     <TextField fx:id="txtDomainFrom" layoutX="14.0" layoutY="67.0" prefWidth="81.0" />
     <TextField fx:id="txtDomainTo" layoutX="123.0" layoutY="67.0" prefWidth="81.0" />
     <TextArea fx:id="txtArea" layoutX="229.0" layoutY="30.0" prefHeight="151.0" prefWidth="200.00009999999747" wrapText="true" />
-    <LineChart id="LineChart" layoutX="234.0" layoutY="181.0">
+    <LineChart id="LineChart" fx:id="lc" layoutX="234.0" layoutY="181.0">
       <xAxis>
         <CategoryAxis side="BOTTOM" />
       </xAxis>
@@ -22,5 +22,6 @@
       </yAxis>
     </LineChart>
     <Button id="btnCalculate" layoutX="14.0" layoutY="138.0" mnemonicParsing="false" onAction="#btCalculate" text="calculate" />
+    <TextField id="txtDomainFrom" fx:id="txtStep" layoutX="14.0" layoutY="95.0" prefWidth="81.0" />
   </children>
 </AnchorPane>
