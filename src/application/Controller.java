@@ -127,7 +127,14 @@ public class Controller {
 				if (edit == 1) {
 					System.out.println("edit mode!");
 					functionList.remove(temp);
+					
 					edit = 0;
+					
+					for(int i=0;i<functionList.size();i++){
+						System.out.println("function : "+functionList.get(i).getExpression());
+						
+					}
+					
 				}
 				Function fun = new Function(formula, from, to, step);
 				functionList.add(fun);
@@ -136,6 +143,7 @@ public class Controller {
 						.observableArrayList(functionList);
 
 				funListView.setItems(items);
+				
 				for (int i = 0; i < functionList.size(); i++) {
 					lc.getData().add(functionList.get(i).getSeries());
 				}
