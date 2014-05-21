@@ -47,11 +47,8 @@ public class Controller {
 	Function temp;
 	int edit=0;
 	@FXML
-	public void handleMouseClick(MouseEvent arg0) {
-		
+	public void handleMouseClick(MouseEvent arg0) {	
 		edit=1;
-		System.out.println("clicked on "
-				+ funListView.getSelectionModel().getSelectedItem());
 		temp = funListView.getSelectionModel().getSelectedItem();
 		txtFormula.setText(funListView.getSelectionModel().getSelectedItem()
 				.getExpression());
@@ -98,14 +95,6 @@ public class Controller {
 	@FXML
 	private void btCalculate() throws UnknownFunctionException,
 			UnparsableExpressionException {
-		
-			
-			
-			
-		
-		
-		
-
 			String formula, sFrom, sTo, sStep;
 			double from, to, step;
 
@@ -123,18 +112,10 @@ public class Controller {
 				System.out.println("formula null lol");
 			} else {
 				//System.out.println("formula  = "+formula+"\t from = "+from+"\t to = "+to+"\t step = "+step);
-				System.out.println("edit = "+edit);
 				if (edit == 1) {
-					System.out.println("edit mode!");
-					functionList.remove(temp);
-					
-					edit = 0;
-					
-					for(int i=0;i<functionList.size();i++){
-						System.out.println("function : "+functionList.get(i).getExpression());
-						
-					}
-					
+					//System.out.println("edit mode!");
+					functionList.remove(temp);				
+					edit = 0;					
 				}
 				Function fun = new Function(formula, from, to, step);
 				functionList.add(fun);
