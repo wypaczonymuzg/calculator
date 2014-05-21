@@ -41,21 +41,33 @@ public class Controller {
 	@FXML
 	private LineChart<Number, Number> lc;
 	@FXML
-	private ListView<XYChart.Series<Number, Number>> funListView;
+	private ListView<Function> funListView;
 
-	ArrayList<XYChart.Series<Number, Number>> functionList = new ArrayList<>();
-	
-	@FXML 
+	ArrayList<Function> functionList = new ArrayList<>();
+	Function temp;
+	int edit=0;
+	@FXML
 	public void handleMouseClick(MouseEvent arg0) {
-	    System.out.println("clicked on " + funListView.getSelectionModel().getSelectedItem());
-	    functionList.clear();
+		
+		edit=1;
+		System.out.println("clicked on "
+				+ funListView.getSelectionModel().getSelectedItem());
+		temp = funListView.getSelectionModel().getSelectedItem();
+		txtFormula.setText(funListView.getSelectionModel().getSelectedItem()
+				.getExpression());
+		txtDomainFrom.setText(Double.toString(funListView.getSelectionModel()
+				.getSelectedItem().getFrom()));
+		txtDomainTo.setText(Double.toString(funListView.getSelectionModel()
+				.getSelectedItem().getTo()));
+		txtStep.setText(Double.toString(funListView.getSelectionModel()
+				.getSelectedItem().getStep()));
 	}
-	
+
 	@FXML
 	private void btClear() {
 		functionList.clear();
 		lc.getData().clear();
-		ObservableList<XYChart.Series<Number, Number>> items = FXCollections
+		ObservableList<Function> items = FXCollections
 				.observableArrayList(functionList);
 		funListView.setItems(items);
 	}
@@ -86,41 +98,51 @@ public class Controller {
 	@FXML
 	private void btCalculate() throws UnknownFunctionException,
 			UnparsableExpressionException {
-		String formula, sFrom, sTo, sStep;
-		double from, to, step;
+		
+			
+			
+			
+		
+		
+		
 
-		sFrom = txtDomainFrom.getText();
-		sTo = txtDomainTo.getText();
-		sStep = txtStep.getText();
+			String formula, sFrom, sTo, sStep;
+			double from, to, step;
 
-		// lc.setTitle("hmmmm, :DD");
+			sFrom = txtDomainFrom.getText();
+			sTo = txtDomainTo.getText();
+			sStep = txtStep.getText();
 
-		from = Double.parseDouble(sFrom);
-		to = Double.parseDouble(sTo);
-		step = Double.parseDouble(sStep);
+			// lc.setTitle("hmmmm, :DD");
 
-		double fromTo = to - from;
+			from = Double.parseDouble(sFrom);
+			to = Double.parseDouble(sTo);
+			step = Double.parseDouble(sStep);
+			formula = txtFormula.getText();
+			if (formula == null) {
+				System.out.println("formula null lol");
+			} else {
+				//System.out.println("formula  = "+formula+"\t from = "+from+"\t to = "+to+"\t step = "+step);
+				System.out.println("edit = "+edit);
+				if (edit == 1) {
+					System.out.println("edit mode!");
+					functionList.remove(temp);
+					edit = 0;
+				}
+				Function fun = new Function(formula, from, to, step);
+				functionList.add(fun);
+				lc.getData().clear();
+				ObservableList<Function> items = FXCollections
+						.observableArrayList(functionList);
 
-		formula = txtFormula.getText();
+				funListView.setItems(items);
+				for (int i = 0; i < functionList.size(); i++) {
+					lc.getData().add(functionList.get(i).getSeries());
+				}
 
-		XYChart.Series<Number, Number> series1 = new XYChart.Series<Number, Number>();
-
-		series1.setName(formula);
-		for (double i = 0; i <= fromTo; i += step) {
-			float xVal = (float) (from + i);
-			float ret = (float) Calculator.calculate(formula, "x", xVal);
-
-			series1.getData().add(new XYChart.Data<Number, Number>(xVal, ret));
+			}
 
 		}
-		functionList.add(series1);
-		lc.getData().clear();
-		ObservableList<XYChart.Series<Number, Number>> items = FXCollections
-				.observableArrayList(functionList);
-
-		funListView.setItems(items);
-		lc.getData().addAll(functionList);
-
 	}
 
-}
+
