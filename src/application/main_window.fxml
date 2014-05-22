@@ -31,29 +31,25 @@
     <Text layoutX="153.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="to" />
     <Text layoutX="16.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="step" />
     <ListView fx:id="funListView" layoutX="14.0" layoutY="243.0" onMouseClicked="#handleMouseClick" prefHeight="341.0" prefWidth="191.0" />
-    <TextField layoutX="672.0" layoutY="40.0" prefWidth="62.0" promptText="x to" />
-    <TextField layoutX="672.0" layoutY="71.0" prefWidth="62.0" promptText="y to" />
-    <TextField layoutX="599.0" layoutY="40.0" prefWidth="62.0" promptText="x from" />
-    <TextField layoutX="599.0" layoutY="70.0" prefWidth="62.0" promptText="y from" />
-    <TextField layoutX="381.0" layoutY="40.0" prefWidth="200.0" promptText="x axis description" />
-    <TextField layoutX="381.0" layoutY="70.0" prefWidth="200.0" promptText="y axis description" />
-    <ComboBox layoutX="655.0" layoutY="107.0" promptText="style">
+    <TextField fx:id="txtXTo" layoutX="672.0" layoutY="40.0" prefWidth="62.0" promptText="x to" />
+    <TextField fx:id="txtYTo" layoutX="672.0" layoutY="71.0" prefWidth="62.0" promptText="y to" />
+    <TextField fx:id="txtXFrom" layoutX="599.0" layoutY="40.0" prefWidth="62.0" promptText="x from" />
+    <TextField fx:id="txtYFrom" layoutX="599.0" layoutY="70.0" prefWidth="62.0" promptText="y from" />
+    <TextField fx:id="txtXAxisDescription" layoutX="315.0" layoutY="40.0" prefWidth="200.0" promptText="x axis description" />
+    <TextField fx:id="txtYAxisDescription" layoutX="315.0" layoutY="70.0" prefWidth="200.0" promptText="y axis description" />
+    <ComboBox fx:id="cbStyle" layoutX="655.0" layoutY="108.0" promptText="style">
       <items>
         <FXCollections fx:factory="observableArrayList">
-          <String fx:value="Item 1" />
-          <String fx:value="Item 2" />
-          <String fx:value="Item 3" />
+          <String fx:value="Solid" />
+          <String fx:value="Dashed" />
+          <String fx:value="Dotted" />
         </FXCollections>
       </items>
+       <value>
+        <String fx:value="Solid" />
+    </value>
     </ComboBox>
-    <ComboBox layoutX="560.0" layoutY="107.0" promptText="color">
-      <items>
-        <FXCollections fx:factory="observableArrayList">
-          <String fx:value="Item 1" />
-          <String fx:value="Item 2" />
-          <String fx:value="Item 3" />
-        </FXCollections>
-      </items>
-    </ComboBox>
+    <Button fx:id="btnSet" layoutX="505.0" layoutY="108.0" mnemonicParsing="false" onAction="#btSet" text="set" />
+    <ColorPicker fx:id="clPicker" layoutX="554.0" layoutY="107.0" />
   </children>
 </AnchorPane>

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 
@@ -13,30 +14,34 @@ import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import de.congrace.exp4j.Calculable;
 import de.congrace.exp4j.ExpressionBuilder;
 import de.congrace.exp4j.UnknownFunctionException;
 import de.congrace.exp4j.UnparsableExpressionException;
 
-public class Controller implements Initializable{
+public class Controller implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Calculator.initFunctions();
 	}
-	
-	
+
 	@FXML
 	private Button btnCalculate;
 	@FXML
@@ -47,6 +52,27 @@ public class Controller implements Initializable{
 	private TextField txtDomainTo;
 	@FXML
 	private TextField txtStep;
+	@FXML
+	private TextField txtXFrom;
+	@FXML
+	private TextField txtXTo;
+	@FXML
+	private TextField txtYFrom;
+	@FXML
+	private TextField txtYTo;
+	@FXML
+	private TextField txtXAxisDescription;
+	@FXML
+	private TextField txtYAxisDescription;
+	@FXML
+	private TextField txtXScale;
+	@FXML
+	private TextField txtYScale;
+	@FXML
+	private ComboBox<String> cbStyle;
+	@FXML
+	private ColorPicker clPicker;
+
 	@FXML
 	private LineChart<Number, Number> lc;
 	@FXML
@@ -69,7 +95,47 @@ public class Controller implements Initializable{
 					.getSelectedItem().getTo()));
 			txtStep.setText(Double.toString(funListView.getSelectionModel()
 					.getSelectedItem().getStep()));
+			clPicker.setValue(funListView.getSelectionModel().getSelectedItem()
+					.getColor());
+			cbStyle.setValue(funListView.getSelectionModel().getSelectedItem()
+					.getStyle());
 		}
+	}
+
+	@FXML
+	private void btSet() {
+		((NumberAxis) (lc.getXAxis())).setAutoRanging(false);
+		((NumberAxis) (lc.getYAxis())).setAutoRanging(false);
+
+		if (!txtXAxisDescription.getText().isEmpty())
+			lc.getXAxis().setLabel(txtXAxisDescription.getText());
+		if (!txtXFrom.getText().isEmpty())
+			((NumberAxis) (lc.getXAxis())).setLowerBound(Double
+					.parseDouble(txtXFrom.getText()));
+		if (!txtXTo.getText().isEmpty())
+			((NumberAxis) (lc.getXAxis())).setUpperBound(Double
+					.parseDouble(txtXTo.getText()));
+
+		/*
+		 * if(!txtXScale.getText().isEmpty())
+		 * ((NumberAxis)(lc.getXAxis())).setScaleX
+		 * (Double.parseDouble(txtXScale.getText()));
+		 */
+
+		if (!txtYAxisDescription.getText().isEmpty())
+			lc.getYAxis().setLabel(txtYAxisDescription.getText());
+		if (!txtYFrom.getText().isEmpty())
+			((NumberAxis) (lc.getYAxis())).setLowerBound(Double
+					.parseDouble(txtYFrom.getText()));
+		if (!txtYTo.getText().isEmpty())
+			((NumberAxis) (lc.getYAxis())).setUpperBound(Double
+					.parseDouble(txtYTo.getText()));
+
+		/*
+		 * if(!txtYScale.getText().isEmpty())
+		 * ((NumberAxis)(lc.getYAxis())).setScaleY
+		 * (Double.parseDouble(txtYScale.getText()));
+		 */
 	}
 
 	@FXML
@@ -110,52 +176,71 @@ public class Controller implements Initializable{
 		String formula, sFrom, sTo, sStep;
 		double from, to, step;
 
+		((NumberAxis) (lc.getXAxis())).setAutoRanging(true);
+		((NumberAxis) (lc.getYAxis())).setAutoRanging(true);
+
 		sFrom = txtDomainFrom.getText();
 		sTo = txtDomainTo.getText();
 		sStep = txtStep.getText();
 
-		// lc.setTitle("hmmmm, :DD");
-
+		String style = cbStyle.getValue();
+		Color cl = clPicker.getValue();
 		from = Double.parseDouble(sFrom);
 		to = Double.parseDouble(sTo);
 		step = Double.parseDouble(sStep);
 		formula = txtFormula.getText();
-	
-		
-		
-			// System.out.println("formula  = "+formula+"\t from = "+from+"\t to = "+to+"\t step = "+step);
-			if (edit == 1) {
-				// System.out.println("edit mode!");
-				functionList.remove(temp);
-				edit = 0;
-			}
-			Function fun;
-			try{
-				fun = new Function(formula, from, to, step);
-			}
-			catch(UnknownFunctionException | UnparsableExpressionException e){
-				
-		      e.printStackTrace();
-		      txtFormula.setStyle("-fx-border-color: red;");
-				return;
-			}
-		      txtFormula.setStyle("-fx-border-color: blue;");
-			 
-		
-			functionList.add(fun);
-			lc.getData().clear();
-			ObservableList<Function> items = FXCollections
-					.observableArrayList(functionList);
 
-			funListView.setItems(items);
+		// System.out.println("formula  = "+formula+"\t from = "+from+"\t to = "+to+"\t step = "+step);
+		if (edit == 1) {
+			// System.out.println("edit mode!");
+			functionList.remove(temp);
+			edit = 0;
+		}
+		StringBuilder styleBuilder = new StringBuilder();
 
-			for (int i = 0; i < functionList.size(); i++) {
-				lc.getData().add(functionList.get(i).getSeries());
+		String lineColor = "#"
+				+ Integer.toHexString(clPicker.getValue().hashCode());
+		styleBuilder.append("-fx-stroke: " + lineColor + ";");
+
+		switch (style) {
+		case "Dotted":
+			styleBuilder.append("-fx-stroke-dash-array: 0.1 5;");
+			break;
+		case "Dashed":
+			styleBuilder.append("-fx-stroke-dash-array: 5 5;");
+			break;
+		case "Solid":
+
+			break;
+
+		}
+		Function fun;
+		try {
+			fun = new Function(formula, from, to, step, cl, style, styleBuilder);
+		} catch (UnknownFunctionException | UnparsableExpressionException e) {
+			e.printStackTrace();
+			txtFormula.setStyle("-fx-border-color: red;");
+			return;
+		}
+		txtFormula.setStyle("-fx-border-color: blue;");
+
+		functionList.add(fun);
+		lc.getData().clear();
+
+		ObservableList<Function> items = FXCollections
+				.observableArrayList(functionList);
+
+		funListView.setItems(items);
+
+		for (int i = 0; i < functionList.size(); i++) {
+			lc.getData().add(functionList.get(i).getSeries());
+			//int nSeries = functionList.size() - 1;
+			Set<Node> nodes = lc.lookupAll(".series" +i);
+
+			for (Node n : nodes) {
+				n.setStyle(functionList.get(i).getStyleBuilder().toString());
 			}
-
-		
+		}
 
 	}
-
-	
 }
