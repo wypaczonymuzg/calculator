@@ -39,7 +39,7 @@ import de.congrace.exp4j.UnparsableExpressionException;
 public class Controller implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		Calculator.initFunctions();
+	
 	}
 
 	@FXML
@@ -196,6 +196,8 @@ public class Controller implements Initializable {
 			functionList.remove(temp);
 			edit = 0;
 		}
+		
+		Function fun;
 		StringBuilder styleBuilder = new StringBuilder();
 
 		String lineColor = "#"
@@ -214,13 +216,34 @@ public class Controller implements Initializable {
 			break;
 
 		}
-		Function fun;
-		try {
-			fun = new Function(formula, from, to, step, cl, style, styleBuilder);
-		} catch (UnknownFunctionException | UnparsableExpressionException e) {
-			e.printStackTrace();
-			txtFormula.setStyle("-fx-border-color: red;");
-			return;
+		// check expression
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		System.out.println(formula.matches(".*\\?{1}.+\\:{1}.+"));
+		if (formula.matches(".*\\?{1}.+\\:{1}.+")) {
+			String array[] = formula.split("\\?");
+			String array2[] = array[1].split("\\:");
+			System.out.println("split "+"\n"+ array[0] +"\n"+array2[0]+"\n"+array2[1]+"\n");
+			
+			try {
+				//ogarnijcie function konstruktor :D dzifki
+				fun = new Function(array[0], array2[0], array2[1], from, to,
+						step, cl, style, styleBuilder);
+			} catch (UnknownFunctionException | UnparsableExpressionException e) {
+				e.printStackTrace();
+				txtFormula.setStyle("-fx-border-color: red;");
+				return;
+			}
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		} else {
+
+			try {
+				fun = new Function(formula, from, to, step, cl, style,
+						styleBuilder);
+			} catch (UnknownFunctionException | UnparsableExpressionException e) {
+				e.printStackTrace();
+				txtFormula.setStyle("-fx-border-color: red;");
+				return;
+			}
 		}
 		txtFormula.setStyle("-fx-border-color: blue;");
 
@@ -234,8 +257,8 @@ public class Controller implements Initializable {
 
 		for (int i = 0; i < functionList.size(); i++) {
 			lc.getData().add(functionList.get(i).getSeries());
-			//int nSeries = functionList.size() - 1;
-			Set<Node> nodes = lc.lookupAll(".series" +i);
+			// int nSeries = functionList.size() - 1;
+			Set<Node> nodes = lc.lookupAll(".series" + i);
 
 			for (Node n : nodes) {
 				n.setStyle(functionList.get(i).getStyleBuilder().toString());
