@@ -8,12 +8,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="612.1328125" prefWidth="748.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.Controller">
+<AnchorPane prefHeight="615.0" prefWidth="750.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.Controller">
   <!-- TODO Add Nodes -->
   <children>
     <TextField fx:id="txtFormula" layoutX="47.0" layoutY="32.0" prefWidth="200.0" />
-    <TextField fx:id="txtDomainFrom" layoutX="55.0" layoutY="67.0" prefWidth="81.0" text="0" />
-    <TextField fx:id="txtDomainTo" layoutX="166.0" layoutY="67.0" prefWidth="81.0" text="100" />
+    <TextField fx:id="txtDomainFrom" layoutX="55.0" layoutY="67.0" prefWidth="81.0" text="-10" />
+    <TextField fx:id="txtDomainTo" layoutX="166.0" layoutY="67.0" prefWidth="81.0" text="10" />
     <LineChart fx:id="lc" animated="false" createSymbols="false" layoutX="205.0" layoutY="159.0" legendVisible="false" prefHeight="439.1328125" prefWidth="529.0">
       <xAxis>
         <NumberAxis side="BOTTOM" />
@@ -23,7 +23,7 @@
       </yAxis>
     </LineChart>
     <Button id="btnCalculate" layoutX="14.0" layoutY="138.0" mnemonicParsing="false" onAction="#btCalculate" text="calculate" />
-    <TextField id="txtDomainFrom" fx:id="txtStep" layoutX="55.0" layoutY="95.0" prefWidth="81.0" text="1" />
+    <TextField id="txtDomainFrom" fx:id="txtStep" layoutX="55.0" layoutY="95.0" prefWidth="81.0" text="0.01" />
     <Button fx:id="btnClear" layoutX="14.0" layoutY="203.0" mnemonicParsing="false" onAction="#btClear" prefWidth="81.0" text="clear" />
     <Button fx:id="btnExport" layoutX="119.0" layoutY="203.0" mnemonicParsing="false" onAction="#btExport" prefWidth="81.0" text="export" />
     <Text layoutX="14.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="f(x)=" />
@@ -35,9 +35,9 @@
     <TextField fx:id="txtYTo" layoutX="672.0" layoutY="71.0" prefWidth="62.0" promptText="y to" />
     <TextField fx:id="txtXFrom" layoutX="599.0" layoutY="40.0" prefWidth="62.0" promptText="x from" />
     <TextField fx:id="txtYFrom" layoutX="599.0" layoutY="70.0" prefWidth="62.0" promptText="y from" />
-    <TextField fx:id="txtXAxisDescription" layoutX="315.0" layoutY="40.0" prefWidth="200.0" promptText="x axis description" />
-    <TextField fx:id="txtYAxisDescription" layoutX="315.0" layoutY="70.0" prefWidth="200.0" promptText="y axis description" />
-    <ComboBox fx:id="cbStyle" layoutX="655.0" layoutY="108.0" promptText="style" value="Solid">
+    <TextField fx:id="txtXAxisDescription" layoutX="390.0" layoutY="40.0" prefWidth="200.0" promptText="x axis description" />
+    <TextField fx:id="txtYAxisDescription" layoutX="390.0" layoutY="71.0" prefWidth="200.0" promptText="y axis description" />
+    <ComboBox fx:id="cbStyle" layoutX="268.0" layoutY="67.0" promptText="style" value="Solid">
       <items>
         <FXCollections fx:factory="observableArrayList">
           <String fx:value="Solid" />
@@ -46,8 +46,8 @@
         </FXCollections>
       </items>
     </ComboBox>
-    <Button fx:id="btnSet" layoutX="505.0" layoutY="108.0" mnemonicParsing="false" onAction="#btSet" text="set" />
-    <ColorPicker fx:id="clPicker" layoutX="554.0" layoutY="107.0" />
+    <Button fx:id="btnSet" layoutX="672.0" layoutY="106.0" mnemonicParsing="false" onAction="#btSet" text="set" />
+    <ColorPicker fx:id="clPicker" layoutX="268.0" layoutY="31.0" />
     <Button id="btnCalculate" fx:id="btnModify" disable="true" layoutX="107.0" layoutY="138.0" mnemonicParsing="false" onAction="#btModify" text="modify" />
   </children>
 </AnchorPane>

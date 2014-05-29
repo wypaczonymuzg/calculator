@@ -251,7 +251,6 @@ public class Controller implements Initializable {
 					+ "\n" + array2[1] + "\n");
 
 			try {
-
 				fun = new Function(formula, array[0], array2[0], array2[1],
 						from, to, step, cl, style, styleBuilder);
 			} catch (UnknownFunctionException | UnparsableExpressionException e) {

@@ -24,7 +24,6 @@ public class Function {
 	Color color;
 	String style;
 	StringBuilder styleBuilder;
-	//ArrayList<XYChart.Series<Number, Number>> list;
 	XYChart.Series<Number, Number> series;
 
 	Function(String exp, double from, double to, double step, Color cl,
@@ -37,13 +36,12 @@ public class Function {
 		this.color = cl;
 		this.style = style;
 		this.styleBuilder = styleBuilder;
-		//list = new ArrayList<XYChart.Series<Number, Number>>();
+		
 
 		series = new XYChart.Series<Number, Number>();
 		series.setName(formula);
 		double fromTo = to - from;
-		//double tempx=0, tempy=0, m = 0;
-
+	
 		for (double i = 0; i <= fromTo; i += step) {
 			double xVal = (float) (from + i);
 			double ret;
@@ -87,7 +85,7 @@ public class Function {
 			ret = (double) Calculator.calculate(expression, "x", xVal);
 			if (!Double.isNaN(ret) && ret != Double.POSITIVE_INFINITY
 					&& ret != Double.NEGATIVE_INFINITY) {
-				if (ret == 1) {
+				if (ret != 0) {
 					ret = (double) Calculator.calculate(exp2, "x", xVal);
 				} else {
 					ret = (double) Calculator.calculate(exp3, "x", xVal);
