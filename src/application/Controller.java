@@ -39,11 +39,13 @@ import de.congrace.exp4j.UnparsableExpressionException;
 public class Controller implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-	
+
 	}
 
 	@FXML
 	private Button btnCalculate;
+	@FXML
+	private Button btnModify;
 	@FXML
 	private TextField txtFormula;
 	@FXML
@@ -86,9 +88,10 @@ public class Controller implements Initializable {
 	public void handleMouseClick(MouseEvent arg0) {
 		if (funListView.getSelectionModel().getSelectedItem() != null) {
 			edit = 1;
+			btnModify.setDisable(false);
 			temp = funListView.getSelectionModel().getSelectedItem();
 			txtFormula.setText(funListView.getSelectionModel()
-					.getSelectedItem().getExpression());
+					.getSelectedItem().getFormula());
 			txtDomainFrom.setText(Double.toString(funListView
 					.getSelectionModel().getSelectedItem().getFrom()));
 			txtDomainTo.setText(Double.toString(funListView.getSelectionModel()
@@ -104,11 +107,16 @@ public class Controller implements Initializable {
 
 	@FXML
 	private void btSet() {
+		
+		
 		((NumberAxis) (lc.getXAxis())).setAutoRanging(false);
 		((NumberAxis) (lc.getYAxis())).setAutoRanging(false);
 
 		if (!txtXAxisDescription.getText().isEmpty())
 			lc.getXAxis().setLabel(txtXAxisDescription.getText());
+		else{
+			lc.getXAxis().setLabel("");
+		}
 		if (!txtXFrom.getText().isEmpty())
 			((NumberAxis) (lc.getXAxis())).setLowerBound(Double
 					.parseDouble(txtXFrom.getText()));
@@ -124,6 +132,9 @@ public class Controller implements Initializable {
 
 		if (!txtYAxisDescription.getText().isEmpty())
 			lc.getYAxis().setLabel(txtYAxisDescription.getText());
+		else{
+			lc.getYAxis().setLabel("");
+		}
 		if (!txtYFrom.getText().isEmpty())
 			((NumberAxis) (lc.getYAxis())).setLowerBound(Double
 					.parseDouble(txtYFrom.getText()));
@@ -140,6 +151,9 @@ public class Controller implements Initializable {
 
 	@FXML
 	private void btClear() {
+		btnModify.setDisable(true);
+		edit = 0;
+		temp=null;
 		functionList.clear();
 		lc.getData().clear();
 		ObservableList<Function> items = FXCollections
@@ -171,8 +185,27 @@ public class Controller implements Initializable {
 	}
 
 	@FXML
+	private void btModify() {
+		// System.out.println("formula  = "+formula+"\t from = "+from+"\t to = "+to+"\t step = "+step);
+		if (edit == 1) {
+			// System.out.println("edit mode!");
+			functionList.remove(temp);
+			edit = 0;
+			btnModify.setDisable(true);
+		}
+		calculate();
+
+	}
+
+	@FXML
 	private void btCalculate() throws UnknownFunctionException,
 			UnparsableExpressionException {
+	
+		calculate();
+
+	}
+
+	private void calculate() {
 		String formula, sFrom, sTo, sStep;
 		double from, to, step;
 
@@ -190,13 +223,6 @@ public class Controller implements Initializable {
 		step = Double.parseDouble(sStep);
 		formula = txtFormula.getText();
 
-		// System.out.println("formula  = "+formula+"\t from = "+from+"\t to = "+to+"\t step = "+step);
-		if (edit == 1) {
-			// System.out.println("edit mode!");
-			functionList.remove(temp);
-			edit = 0;
-		}
-		
 		Function fun;
 		StringBuilder styleBuilder = new StringBuilder();
 
@@ -216,24 +242,24 @@ public class Controller implements Initializable {
 			break;
 
 		}
-		// check expression
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
 		System.out.println(formula.matches(".*\\?{1}.+\\:{1}.+"));
 		if (formula.matches(".*\\?{1}.+\\:{1}.+")) {
 			String array[] = formula.split("\\?");
 			String array2[] = array[1].split("\\:");
-			System.out.println("split "+"\n"+ array[0] +"\n"+array2[0]+"\n"+array2[1]+"\n");
-			
+			System.out.println("split " + "\n" + array[0] + "\n" + array2[0]
+					+ "\n" + array2[1] + "\n");
+
 			try {
-				//ogarnijcie function konstruktor :D dzifki
-				fun = new Function(array[0], array2[0], array2[1], from, to,
-						step, cl, style, styleBuilder);
+
+				fun = new Function(formula, array[0], array2[0], array2[1],
+						from, to, step, cl, style, styleBuilder);
 			} catch (UnknownFunctionException | UnparsableExpressionException e) {
 				e.printStackTrace();
 				txtFormula.setStyle("-fx-border-color: red;");
 				return;
 			}
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
 		} else {
 
 			try {
@@ -264,6 +290,5 @@ public class Controller implements Initializable {
 				n.setStyle(functionList.get(i).getStyleBuilder().toString());
 			}
 		}
-
 	}
 }

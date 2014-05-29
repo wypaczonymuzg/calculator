@@ -37,7 +37,7 @@
     <TextField fx:id="txtYFrom" layoutX="599.0" layoutY="70.0" prefWidth="62.0" promptText="y from" />
     <TextField fx:id="txtXAxisDescription" layoutX="315.0" layoutY="40.0" prefWidth="200.0" promptText="x axis description" />
     <TextField fx:id="txtYAxisDescription" layoutX="315.0" layoutY="70.0" prefWidth="200.0" promptText="y axis description" />
-    <ComboBox fx:id="cbStyle" layoutX="655.0" layoutY="108.0" promptText="style">
+    <ComboBox fx:id="cbStyle" layoutX="655.0" layoutY="108.0" promptText="style" value="Solid">
       <items>
         <FXCollections fx:factory="observableArrayList">
           <String fx:value="Solid" />
@@ -45,11 +45,9 @@
           <String fx:value="Dotted" />
         </FXCollections>
       </items>
-       <value>
-        <String fx:value="Solid" />
-    </value>
     </ComboBox>
     <Button fx:id="btnSet" layoutX="505.0" layoutY="108.0" mnemonicParsing="false" onAction="#btSet" text="set" />
     <ColorPicker fx:id="clPicker" layoutX="554.0" layoutY="107.0" />
+    <Button id="btnCalculate" fx:id="btnModify" disable="true" layoutX="107.0" layoutY="138.0" mnemonicParsing="false" onAction="#btModify" text="modify" />
   </children>
 </AnchorPane>
